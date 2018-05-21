@@ -1,5 +1,7 @@
 import * as display from "./displayFunction";
+import * as fs from "fs";
 import TimeService from "./TimeService.js";
+import DisplayService from "./DisplayService";
 
 export default class App {
 
@@ -11,23 +13,30 @@ export default class App {
      */
     timeService = null;
 
-    constructor(timeService) {
+    /**
+     *
+     * @type {DisplayService}
+     */
+    displayService = null;
+
+    constructor(timeService, displayService) {
         this.timeService = timeService;
+        this.displayService = displayService;
     }
 
     onClick(jsonObject) {
 
         let lastIndex = jsonObject["entries"].length - 1;
+        let status = `nothing`;
 
         if (jsonObject["entries"][lastIndex]["status"] == `fasting`) {
-            buttonCaption = `START`;
+            this.displayService.startButton();
             status = `eating`;
         }
         else {
-            buttonCaption = `STOP`;
+            this.displayService.stopButton();
             status = `fasting`;
         }
-        buttonText.text = buttonCaption;
 
         jsonObject.entries.push({
             "id" : jsonObject["entries"].length,
