@@ -3,18 +3,14 @@ import document from "document";
 import * as fs from "fs";
 import TimeService from "./TimeService.js";
 import App from "./App.js";
+import DisplayService from "./DisplayService";
 
-let jsonObject = fs.readFileSync("json.txt", "json");
-let app = new App(new TimeService());
-
+let jsonObject = fs.readFileSync("json.txt", "json")
+let displayService = new DisplayService();
+let app = new App(new TimeService(), displayService);
 
 // Update the clock every minute
 clock.granularity = "minutes";
-
-var button = document.getElementById("button");
-var buttonGroup = document.getElementById("buttonGroup");
-const buttonText = document.getElementById("buttonText");
-let buttonCaption = ``;
 
 let status = `nothing`;
 
@@ -30,8 +26,7 @@ catch(error) {
 }
 
 if (!exists) {
-  buttonCaption = `START FIRST FAST`;
-  buttonText.text = buttonCaption;
+  displayService.buttonText().text = `START FIRST FAST`;
   let someDay = new Date('2018-05-20T10:00:30Z');
   let fastingLog = {
       "entries": [
@@ -47,15 +42,14 @@ else {
   let lastIndex = jsonObject["entries"].length - 1;
   
   if (jsonObject["entries"][lastIndex]["status"] == `fasting`) {
-    buttonCaption = `STOP`;
+      displayService.stopButton();
   }
   else {
-    buttonCaption = `START`;
+      displayService.startButton();
   }
-  buttonText.text = buttonCaption;
 }
 
-buttonGroup.onclick = () => {
+displayService.buttonGroup().onclick = () => {
   app.onClick(jsonObject);
 }
 
