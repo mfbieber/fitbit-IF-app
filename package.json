@@ -1,0 +1,18 @@
+{
+  "fitbit": {
+    "appUUID": "bd06aa9c-13b8-4476-8976-cad89ae279fe",
+    "appType": "app",
+    "appDisplayName": "IF",
+    "iconFile": "resources/icon.png",
+    "wipeColor": "#3f51b5",
+    "requestedPermissions": [],
+    "buildTargets": [
+      "higgs"
+    ],
+    "i18n": {
+      "en": {
+        "name": "IF"
+      }
+    }
+  }
+}

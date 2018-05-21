@@ -1,0 +1,50 @@
+.background {
+  viewport-fill: #7898f8;
+}
+
+#button {
+  width: 80%; 
+  height: 20%;
+  fill: #bcd8f8;
+  x: 10%;
+  y: 70%;
+}
+
+text {
+  font-family: Fabrikat-Black;
+  text-length: 32;
+  fill: #bcd8f8;
+  x: 5%;
+}
+
+#appTitle {
+  font-size: 30;
+  y: 15%;
+}
+
+#ifStart {
+  font-size: 30;
+  y: 30%;
+}
+
+#ifEnd {
+  font-size: 30;
+  y: 45%;
+}
+
+#ifEndTime {
+  font-size: 30;
+  y: 60%;
+}
+
+#buttonText {
+  font-size: 30;
+  y: 85%;
+  fill: #7898f8;
+  x: 50%;
+  text-anchor: middle;
+}
+
+
+
+
