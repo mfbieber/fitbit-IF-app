@@ -1,3 +1,4 @@
+import clock from "clock";
 import document from "document";
 import App from "./App.js";
 
@@ -13,3 +14,8 @@ btnBR.onactivate = function(evt) {
 
 app.init();
 
+// Update the clock every minute
+clock.granularity = "minutes";
+clock.ontick = function(evt) {
+    app.onTick();
+}

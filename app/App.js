@@ -1,4 +1,3 @@
-import clock from "clock";
 import DisplayService from "./DisplayService";
 import AppState from "../common/AppState";
 
@@ -21,8 +20,8 @@ export default class App {
         this.displayService.makeTextDisplay(this.appState);
     }
 
-    onTick(appState) {
-        this.displayService.makeTextDisplay(appState);
+    onTick() {
+        this.displayService.makeTextDisplay(this.appState);
     }
 
     init() {
@@ -38,12 +37,6 @@ export default class App {
 
         this.displayService.buttonGroup().onclick = () => {
             this.onClick();
-        }
-
-        // Update the clock every minute
-        clock.granularity = "minutes";
-        clock.ontick = function(evt) {
-            this.onTick();
         }
     }
 
