@@ -7,4 +7,9 @@
     <rect id="button" />
     <text id="buttonText" />
   </g>
+  <!-- lower right config button -->
+    <use id="btn-br" href="#combo-button-lower-right" fill="fb-cyan">
+      <set href="combo-button-icon" attributeName="href" to="cog.png"/>
+      <set href="combo-button-icon-press" attributeName="href" to="cog_press.png"/>
+    </use>
 </svg>

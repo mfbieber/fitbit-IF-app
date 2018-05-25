@@ -2,10 +2,15 @@ import * as display from "./displayFunction";
 import * as fs from "fs";
 import TimeService from "./TimeService.js";
 import DisplayService from "./DisplayService";
+import AppState from "../common/AppState";
 
 export default class App {
 
-    jsonObject = null;
+    /**
+     *
+     * @type {AppState}
+     */
+    appState = null;
 
     /**
      *
@@ -19,35 +24,36 @@ export default class App {
      */
     displayService = null;
 
-    constructor(timeService, displayService) {
+    constructor(timeService, displayService, appState) {
         this.timeService = timeService;
         this.displayService = displayService;
+        this.appState = appState;
     }
 
-    onClick(jsonObject) {
+    onClick(jsonObject, appState, appStateRepository) {
 
-        let lastIndex = jsonObject["entries"].length - 1;
-        let status = `nothing`;
-
-        if (jsonObject["entries"][lastIndex]["status"] == `fasting`) {
+        if (appState.isFasting()) {
             this.displayService.startButton();
-            status = `eating`;
+            appState.startEating();
         }
         else {
             this.displayService.stopButton();
-            status = `fasting`;
+            appState.startFasting();
         }
+
+        appStateRepository.update(jsonObject, appState, this.timeService.today());
+        appStateRepository.save();
 
         jsonObject.entries.push({
             "id" : jsonObject["entries"].length,
             "date": this.timeService.today(),
-            "status": status });
+            "status": appState.status });
         fs.writeFileSync("json.txt", jsonObject, "json");
         display.displayFunction();
     }
 
     onTick() {
-        display.displayFunction();
+        display.displayFunction(appStateRepository);
     }
 
     init() {

@@ -12,6 +12,10 @@ export default class DisplayService {
         return document.getElementById("buttonText")
     }
 
+    startUpButton(){
+        this.buttonText().text = `START FIRST FAST`;
+    }
+
     startButton(){
         this.buttonText().text = `START`;
     }

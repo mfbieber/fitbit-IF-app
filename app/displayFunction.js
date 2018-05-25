@@ -1,4 +1,3 @@
-import * as fs from "fs";
 import document from "document";
 import * as util from "../common/utils";
 const appTitle = document.getElementById("appTitle");
@@ -8,9 +7,9 @@ const ifEndTime = document.getElementById("ifEndTime");
 const eatTime = 8;
 const fastTime = 16;
 
-export function displayFunction() {
-  
-    let jsonObject = fs.readFileSync("json.txt", "json");
+export function displayFunction(appStateRepository) {
+
+    let jsonObject = appStateRepository.load();
     let lastIndex = jsonObject["entries"].length - 1;
     let today = new Date();
     appTitle.text = `INTERMITTENT FASTING`;
