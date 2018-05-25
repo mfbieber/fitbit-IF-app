@@ -1,13 +1,10 @@
-import * as display from "./displayFunction";
-import * as fs from "fs";
-import TimeService from "./TimeService.js";
+import clock from "clock";
 import DisplayService from "./DisplayService";
 import AppState from "../common/AppState";
 
 export default class App {
 
     constructor() {
-        this.timeService = new TimeService();
         this.displayService = new DisplayService();
         this.appState = new AppState();
     }
@@ -21,11 +18,11 @@ export default class App {
             this.displayService.stopButton();
             this.appState.startFasting();
         }
-        display.displayFunction();
+        this.displayService.makeTextDisplay(this.appState);
     }
 
-    onTick(appStateRepository) {
-        display.displayFunction(appStateRepository);
+    onTick(appState) {
+        this.displayService.makeTextDisplay(appState);
     }
 
     init() {
@@ -37,6 +34,16 @@ export default class App {
         }
         else {
             this.displayService.startButton()
+        }
+
+        this.displayService.buttonGroup().onclick = () => {
+            this.onClick();
+        }
+
+        // Update the clock every minute
+        clock.granularity = "minutes";
+        clock.ontick = function(evt) {
+            this.onTick();
         }
     }
 

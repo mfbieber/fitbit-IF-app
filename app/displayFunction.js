@@ -40,7 +40,7 @@ export function displayFunction(appStateRepository) {
         let hoursOver = Math.floor(timeOverTarget/(60*60*1000));
         let minsOver = Math.floor(timeOverTarget/(60*1000));
         ifEnd.text = `Break fast!`;
-        ifEnd.text = `exceeded by: ${hoursOver} h ${minsOver - hoursOver*60} min`;
+        ifEndTime.text = `exceeded by: ${hoursOver} h ${minsOver - hoursOver*60} min`;
       }
     }
     else if (jsonObject["entries"][lastIndex]["status"] == `eating`) {
