@@ -1,14 +1,8 @@
 import clock from "clock";
 import document from "document";
-import TimeService from "./TimeService.js";
 import App from "./App.js";
-import DisplayService from "./DisplayService";
-import AppState from "../common/AppState";
-import AppStateRepository from "../common/AppStateRepository";
-let appStateRepository = new AppStateRepository();
 
-let displayService = new DisplayService();
-let app = new App(new TimeService(), displayService, new AppState(appStateRepository));
+let app = new App();
 
 
 // Update the clock every minute
@@ -18,8 +12,6 @@ let btnBR = document.getElementById("btn-br");
 btnBR.onactivate = function(evt) {
     console.log("config button!");
 }
-
-let status = `nothing`;
 
 //remove file if needed...just for dev.
 //fs.unlinkSync("json.txt");

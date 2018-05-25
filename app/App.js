@@ -6,58 +6,38 @@ import AppState from "../common/AppState";
 
 export default class App {
 
-    /**
-     *
-     * @type {AppState}
-     */
-    appState = null;
-
-    /**
-     *
-     * @type {TimeService}
-     */
-    timeService = null;
-
-    /**
-     *
-     * @type {DisplayService}
-     */
-    displayService = null;
-
-    constructor(timeService, displayService, appState) {
-        this.timeService = timeService;
-        this.displayService = displayService;
-        this.appState = appState;
+    constructor() {
+        this.timeService = new TimeService();
+        this.displayService = new DisplayService();
+        this.appState = new AppState();
     }
 
-    onClick(jsonObject, appState, appStateRepository) {
-
-        if (appState.isFasting()) {
+    onClick() {
+        if (this.appState.isFasting()) {
             this.displayService.startButton();
-            appState.startEating();
+            this.appState.startEating();
         }
         else {
             this.displayService.stopButton();
-            appState.startFasting();
+            this.appState.startFasting();
         }
-
-        appStateRepository.update(jsonObject, appState, this.timeService.today());
-        appStateRepository.save();
-
-        jsonObject.entries.push({
-            "id" : jsonObject["entries"].length,
-            "date": this.timeService.today(),
-            "status": appState.status });
-        fs.writeFileSync("json.txt", jsonObject, "json");
         display.displayFunction();
     }
 
-    onTick() {
+    onTick(appStateRepository) {
         display.displayFunction(appStateRepository);
     }
 
     init() {
-
+        if(this.appState.firstFast()) {
+            this.displayService.startUpButton();
+        }
+        else if(this.appState.isFasting()) {
+            this.displayService.stopButton();
+        }
+        else {
+            this.displayService.startButton()
+        }
     }
 
 }

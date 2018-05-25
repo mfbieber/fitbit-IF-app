@@ -4,48 +4,40 @@ export default class AppState {
 
     status = `nothing`;
 
-    /**
-     *
-     * @type {AppStateRepository}
-     */
-    appStateRepository = null;
-
-    constructor(appStateRepository) {
-        this.appStateRepository = appStateRepository;
+    constructor() {
+        this.appStateRepository = new AppStateRepository;
     }
 
-    startingUp (appStateRepository) {
+    firstFast () {
         //does a log file exist? If not, this is the very first fast.
-        if (!appStateRepository.exists()) {
-            displayService.startUpButton();
-            appStateRepository.save(appStateRepository.create());
+        if (!this.appStateRepository.exists()) {
+            this.isFasting(this.appStateRepository);
+            this.appStateRepository.create(status);
+            return true;
         }
+        //If we have a log file, then set the status to the last logged status.
         else {
-            let jsonObject = appStateRepository.load();
-            let lastIndex = jsonObject["entries"].length - 1;
-
             if (this.isFasting()) {
-                displayService.stopButton();
+                this.status = `fasting`;
             }
-            else {
-                displayService.startButton();
+            else if (this.isEating()) {
+                this.status = `eating`;
             }
         }
-
     }
 
-    startFasting(jsonObject, appState, timeService, appStateRepository) {
+    startFasting(time) {
         this.status = `fasting`;
-        appStateRepository.update(jsonObject, appState, timeService.today());
+        this.appStateRepository.update(this.appStateRepository.load(), this.status, time);
     }
 
-    startEating(jsonObject, appState, timeService, appStateRepository) {
+    startEating(time) {
         this.status = `eating`;
-        appStateRepository.update(jsonObject, appState, timeService.today());
+        this.appStateRepository.update(this.appStateRepository.load(), this.status, time);
     }
 
-    isFasting(appStateRepository) {
-        let jsonObject = appStateRepository.load();
+    isFasting() {
+        let jsonObject = this.appStateRepository.load();
         let lastIndex = jsonObject["entries"].length - 1;
         if (jsonObject["entries"][lastIndex]["status"] == `fasting`) {
             return true;
@@ -55,8 +47,8 @@ export default class AppState {
         }
     }
 
-    isEating(appStateRepository) {
-        let jsonObject = appStateRepository.load();
+    isEating() {
+        let jsonObject = this.appStateRepository.load();
         let lastIndex = jsonObject["entries"].length - 1;
         if (jsonObject["entries"][lastIndex]["status"] == `eating`) {
             return true;

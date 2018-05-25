@@ -15,14 +15,15 @@ export default class AppStateRepository {
         return exists;
     }
 
-    create(appState) {
+    create(status) {
         this.jsonObject = {
             "entries": [
                 { "id" : 0,
                     "date": new Date('2018-05-20T10:00:30Z'),
-                    "status": appState.status }
+                    "status": status }
             ]
         };
+        this.save(this.jsonObject);
         return this.jsonObject;
     }
 
@@ -35,11 +36,11 @@ export default class AppStateRepository {
         fs.writeFileSync ("fastLog.json", jsonObject, "json");
     }
 
-    update(jsonObject, appState, timeService) {
+    update(jsonObject, status, time) {
         this.jsonObject.entries.push({
             "id" : jsonObject["entries"].length,
-                "date": timeService,
-                "status": appState.status });
+                "date": time,
+                "status": status });
         this.save(jsonObject);
     }
 }
